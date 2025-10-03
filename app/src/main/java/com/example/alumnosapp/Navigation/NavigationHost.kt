@@ -10,12 +10,27 @@ import androidx.navigation.navArgument
 import com.example.alumnosapp.views.AlumnoListScreen
 import com.example.alumnosapp.views.AlumnoViewDetail
 
-//RUtas
+/**
+ * Define las rutas de navegación de la aplicación.
+ */
 object Destinations {
+    /**
+     * Ruta para la pantalla que muestra la lista de alumnos.
+     */
     const val ALUMNOS_LIST = "alumnos_list"
+
+    /**
+     * Ruta para la pantalla de detalle de un alumno.
+     * Requiere un argumento `alumnoId`.
+     */
     const val ALUMNO_DETAIL = "alumno_detail/{alumnoId}" // {alumnoId} es el argumento
 }
-//navegacion
+
+/**
+ * Componente principal de navegación de la aplicación.
+ *
+ * Configura el [NavHost] y define las diferentes rutas y sus destinos.
+ */
 @Composable
 fun AppNavHost() {
     val navController = rememberNavController()
@@ -24,33 +39,33 @@ fun AppNavHost() {
         navController = navController,
         startDestination = Destinations.ALUMNOS_LIST
     ) {
-        // ruta de la lista (app rpicnipal)
+        // Ruta para la pantalla de lista de alumnos.
         composable(Destinations.ALUMNOS_LIST) {
             AlumnoListScreen(
-                // Aquí se define la acción de click: navegar a la ruta de detalle
+                // Define la acción al hacer clic en un alumno: navegar a la pantalla de detalle.
                 onAlumnoClick = { alumnoId ->
                     navController.navigate("alumno_detail/$alumnoId")
                 }
             )
         }
 
-        //  ruta del detall (detalle de los alumnos)
+        // Ruta para la pantalla de detalle del alumno.
         composable(
             route = Destinations.ALUMNO_DETAIL,
             arguments = listOf(navArgument("alumnoId") { type = NavType.IntType })
         ) { backStackEntry ->
 
-            // Extraer el argumento de la ruta(para volver a tras)
+            // Extrae el ID del alumno de los argumentos de la ruta.
             val alumnoId = backStackEntry.arguments?.getInt("alumnoId")
 
-            //mostrar la pantall de detalle
+            // Muestra la pantalla de detalle si el ID del alumno no es nulo.
             if (alumnoId != null) {
                 AlumnoViewDetail(
                     alumnoId = alumnoId,
                     navController = navController
                 )
             } else {
-                // Manejar error de de id
+                // Muestra un mensaje de error si no se proporciona el ID del alumno.
                 Text("Error: Alumno ID no proporcionado")
             }
         }

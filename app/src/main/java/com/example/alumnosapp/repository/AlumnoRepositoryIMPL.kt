@@ -2,8 +2,15 @@ package com.example.alumnosapp.repository
 
 import com.example.alumnosapp.data.model.Alumno
 
-// generacion de los alumnos, con la funcion getALiumnos
+/**
+ * Implementación de [AlumnoRepository] que genera una lista de alumnos de prueba.
+ */
 class AlumnoRepositoryImpl : AlumnoRepository {
+    /**
+     * Devuelve una lista de 50 alumnos generados dinámicamente.
+     *
+     * @return Una lista de [Alumno].
+     */
     override fun getAlumnos(): List<Alumno> {
         val alumnos = mutableListOf<Alumno>()
 
